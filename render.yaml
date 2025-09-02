@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: trontiq-auth-server
+    env: python
+    plan: free
+    buildCommand: pip install -r auth_requirements.txt
+    startCommand: gunicorn auth_server:app
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.9.16
+      - key: SECRET_KEY
+        generateValue: true
+      - key: COOKIE_SECURE
+        value: true
+      - key: FLASK_ENV
+        value: production
+      - key: PORT
+        value: 10000
+    healthCheckPath: /health
+    autoDeploy: true
